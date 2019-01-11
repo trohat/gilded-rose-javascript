@@ -137,7 +137,7 @@ describe("Conjured item", () => {
     expect(quality).toBe(4);
   });
 
-  test("quality degrades twice as fast if sellIn is less then zero", () => {
+  test("quality degrades four times as fast if sellIn is less then zero", () => {
     const [{ sellIn, quality }] = updateQuality([
       { name: "Conjured Mana Cake", sellIn: -3, quality: 6 }
     ]);

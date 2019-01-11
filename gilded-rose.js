@@ -41,10 +41,20 @@ const updatePasses = _.flow(
   moveSellIn
 );
 
+const updateConjured = _.flow(
+  _.cond([
+    [sellInRange(-Infinity, 1), _.update("quality", _.add(-4))],
+    [_.stubTrue, _.update("quality", _.add(-2))]
+  ]),
+  capQuality,
+  moveSellIn
+);
+
 const updateItemQuality = _.cond([
   [hasName("Sulfuras, Hand of Ragnaros"), _.identity],
   [hasName("Aged Brie"), updatedAged],
   [hasName("Backstage passes to a TAFKAL80ETC concert"), updatePasses],
+  [hasName("Conjured Mana Cake"), updateConjured],
   [_.stubTrue, updateDefault]
 ]);
 
