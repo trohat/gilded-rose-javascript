@@ -1,16 +1,4 @@
 const updateQuality = require("./");
-[
-  { name: "+5 Dexterity Vest", sellIn: 10, quality: 20 },
-  { name: "Aged Brie", sellIn: 2, quality: 0 },
-  { name: "Elixir of the Mongoose", sellIn: 5, quality: 7 },
-  { name: "Sulfuras, Hand of Ragnaros", sellIn: 0, quality: 80 },
-  {
-    name: "Backstage passes to a TAFKAL80ETC concert",
-    sellIn: 15,
-    quality: 20
-  },
-  { name: "Conjured Mana Cake", sellIn: 3, quality: 6 }
-];
 
 describe("Normal item", () => {
   test("lowers both values for every item", () => {
@@ -135,6 +123,35 @@ describe("Backstage passes", () => {
     ]);
 
     expect(sellIn).toBe(-1);
+    expect(quality).toBe(0);
+  });
+});
+
+describe("Conjured item", () => {
+  test("degrades quality twice as fast", () => {
+    const [{ sellIn, quality }] = updateQuality([
+      { name: "Conjured Mana Cake", sellIn: 3, quality: 6 }
+    ]);
+
+    expect(sellIn).toBe(2);
+    expect(quality).toBe(4);
+  });
+
+  test("quality degrades twice as fast if sellIn is less then zero", () => {
+    const [{ sellIn, quality }] = updateQuality([
+      { name: "Conjured Mana Cake", sellIn: -3, quality: 6 }
+    ]);
+
+    expect(sellIn).toBe(-4);
+    expect(quality).toBe(2);
+  });
+
+  test("quality is never negative", () => {
+    const [{ sellIn, quality }] = updateQuality([
+      { name: "Conjured Mana Cake", sellIn: 3, quality: 1 }
+    ]);
+
+    expect(sellIn).toBe(2);
     expect(quality).toBe(0);
   });
 });
