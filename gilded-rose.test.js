@@ -24,11 +24,11 @@ test('something degrades normally', () => {
   expect(updateQuality([ {
     name: "something",
     sellIn: 45,
-    quality: 80
+    quality: 30
   } ])).toStrictEqual([ {
     name: "something",
     sellIn: 44,
-    quality: 79
+    quality: 29
   } ]);
 });
 
@@ -36,11 +36,11 @@ test('something starting with sellIn 1 still degrades normally', () => {
   expect(updateQuality([ {
     name: "something",
     sellIn: 1,
-    quality: 80
+    quality: 30
   } ])).toStrictEqual([ {
     name: "something",
     sellIn: 0,
-    quality: 79
+    quality: 29
   } ]);
 });
 
@@ -125,6 +125,18 @@ test('Aged Brie quality never over 50', () => {
     name: "Aged Brie",
     sellIn: 44,
     quality: 50
+  } ]);
+});
+
+test('Aged Brie with negative sellIn', () => {
+  expect(updateQuality([ {
+    name: "Aged Brie",
+    sellIn: -45,
+    quality: 30
+  } ])).toStrictEqual([ {
+    name: "Aged Brie",
+    sellIn: -46,
+    quality: 32
   } ]);
 });
 
@@ -526,5 +538,67 @@ test('Backstage passes 0 days at 47', () => {
     name: "Backstage passes to a TAFKAL80ETC concert",
     sellIn: -1,
     quality: 0
+  } ]);
+});
+
+test('Backstage passes with negative sellIn', () => {
+  expect(updateQuality([ {
+    name: "Backstage passes to a TAFKAL80ETC concert",
+    sellIn: -45,
+    quality: 50
+  } ])).toStrictEqual([ {
+    name: "Backstage passes to a TAFKAL80ETC concert",
+    sellIn: -46,
+    quality: 0
+  } ]);
+});
+
+
+
+test('Conjured Mana Cake degrades twice as normally', () => {
+  expect(updateQuality([ {
+    name: "Conjured Mana Cake",
+    sellIn: 45,
+    quality: 30
+  } ])).toStrictEqual([ {
+    name: "Conjured Mana Cake",
+    sellIn: 44,
+    quality: 28
+  } ]);
+});
+
+test('Conjured Mana Cake starting with sellIn 1 still degrades twice as normally', () => {
+  expect(updateQuality([ {
+    name: "Conjured Mana Cake",
+    sellIn: 1,
+    quality: 30
+  } ])).toStrictEqual([ {
+    name: "Conjured Mana Cake",
+    sellIn: 0,
+    quality: 28
+  } ]);
+});
+
+test('Conjured Mana Cake starting with sellIn 0 degrades twice times twice as fast', () => {
+  expect(updateQuality([ {
+    name: "Conjured Mana Cake",
+    sellIn: 0,
+    quality: 45
+  } ])).toStrictEqual([ {
+    name: "Conjured Mana Cake",
+    sellIn: -1,
+    quality: 41
+  } ]);
+});
+
+test('Conjured Mana Cake with negative sellIn degrades twice times twice as fast', () => {
+  expect(updateQuality([ {
+    name: "Conjured Mana Cake",
+    sellIn: -1,
+    quality: 45
+  } ])).toStrictEqual([ {
+    name: "Conjured Mana Cake",
+    sellIn: -2,
+    quality: 41
   } ]);
 });
